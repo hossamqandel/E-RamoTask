@@ -29,6 +29,8 @@ class PostsViewModel @Inject constructor(
     private val _state = MutableSharedFlow<PostsState>()
     val state = _state.asSharedFlow()
 
+    init { getPosts() }
+
     fun getPosts() {
         getPostsJob?.cancel()
         getPostsJob = viewModelScope.launch(coroutineExceptionHandler + Dispatchers.Main) {

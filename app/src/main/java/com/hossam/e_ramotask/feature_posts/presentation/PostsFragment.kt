@@ -42,7 +42,6 @@ class PostsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getPosts()
         onRefresh()
         collectState()
         clickEvents()
@@ -93,6 +92,7 @@ class PostsFragment : Fragment() {
     }
     
     private fun collectState(){
+        viewModel.getPosts()
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main){
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 viewModel.state.collectLatest { state -> 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -30,6 +31,18 @@ class PostDetailFragment : Fragment() {
     private val postId by lazy { navArgs.postId }
     private val viewModel: PostDetailViewModel by viewModels()
 
+    private fun onBackPress() {
+        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                findNavController().popBackStack()
+            }
+        })
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        onBackPress()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +59,7 @@ class PostDetailFragment : Fragment() {
         onRefresh()
         collectState()
         clickEvent()
+
     }
 
     override fun onDestroyView() {
@@ -77,7 +91,7 @@ class PostDetailFragment : Fragment() {
     }
 
     private fun clickEvent() {
-        binding.btnBack.setOnClickListener { findNavController().navigateUp() }
+        binding.btnBack.setOnClickListener { findNavController().popBackStack() }
     }
 
 

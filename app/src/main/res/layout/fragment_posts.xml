@@ -29,10 +29,10 @@
 
         <ImageView
             android:id="@+id/ivError"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="Error"
-            android:src="@drawable/ic_launcher_background"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:contentDescription="@string/there_is_an_error"
+            android:src="@drawable/ic_error"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
