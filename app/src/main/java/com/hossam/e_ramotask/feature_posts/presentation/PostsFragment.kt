@@ -87,7 +87,6 @@ class PostsFragment : Fragment() {
     private fun setupRecycler(data: Posts){
         with(binding){
             postsAdapter.setPosts(data)
-            postsAdapter.notifyDataSetChanged()
         }
     }
     
