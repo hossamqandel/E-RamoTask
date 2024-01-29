@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import retrofit2.http.HTTP
+import java.io.IOException
 import java.net.HttpURLConnection.HTTP_BAD_REQUEST
 import java.net.HttpURLConnection.HTTP_NOT_FOUND
 import java.net.HttpURLConnection.HTTP_NO_CONTENT
@@ -33,6 +34,11 @@ class PostsRepository @Inject constructor(
                 HTTP_NO_CONTENT -> emit(Resource.Error("Sorry there is no content to show"))
             }
         }catch (e: HttpException){
+            e.printStackTrace()
+            emit(Resource.Error("Please check your Internet connection and try again"))
+        }
+
+        catch (e: IOException){
             e.printStackTrace()
             emit(Resource.Error("Please check your Internet connection and try again"))
         }

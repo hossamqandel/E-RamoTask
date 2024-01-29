@@ -39,6 +39,7 @@ class PostsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.getPosts()
         onRefresh()
         collectState()
     }
@@ -60,6 +61,14 @@ class PostsFragment : Fragment() {
     private fun hideErrorImage(){
         binding.ivError.visibility = View.GONE
     }
+
+    private fun showRecycler(){
+        binding.rvPosts.visibility = View.VISIBLE
+    }
+
+    private fun hideRecycler(){
+        binding.rvPosts.visibility = View.GONE
+    }
     
     private fun setupRecycler(data: Posts){
         with(binding){
@@ -77,8 +86,10 @@ class PostsFragment : Fragment() {
                         is PostsState.Success -> {
                             setupRecycler(state.data)
                             hideErrorImage()
+                            showRecycler()
                         }
                         is PostsState.Error -> {
+                            hideRecycler()
                             showErrorImage()
                             showSnackbar(state.errorMessage)
                         }
