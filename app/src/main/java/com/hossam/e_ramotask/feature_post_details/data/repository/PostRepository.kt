@@ -6,8 +6,10 @@ import com.hossam.e_ramotask.feature_post_details.domain.model.Post
 import com.hossam.e_ramotask.feature_post_details.domain.repository.IPostRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.HttpException
-import java.net.HttpURLConnection
+import java.io.IOException
+import java.net.HttpURLConnection.HTTP_NOT_FOUND
+import java.net.HttpURLConnection.HTTP_NO_CONTENT
+import java.net.HttpURLConnection.HTTP_OK
 import javax.inject.Inject
 
 class PostRepository @Inject constructor(
@@ -22,12 +24,11 @@ class PostRepository @Inject constructor(
             val result = webService.fetchPostDetails(postId = postId)
 
             when(result.code()){
-                HttpURLConnection.HTTP_OK -> { result.body()?.let { posts -> emit(Resource.Success(posts)) } }
-                HttpURLConnection.HTTP_NOT_FOUND -> emit(Resource.Error("Sorry there is no content to show"))
-                HttpURLConnection.HTTP_NO_CONTENT -> emit(Resource.Error("Sorry there is no content to show"))
+                HTTP_OK -> { result.body()?.let { posts -> emit(Resource.Success(posts)) } }
+                HTTP_NOT_FOUND -> emit(Resource.Error("The source that you are looking for not founded"))
+                HTTP_NO_CONTENT -> emit(Resource.Error("Sorry there is no content to show"))
             }
-
-        }catch (e: HttpException){
+        } catch (e: IOException){
             e.printStackTrace()
             emit(Resource.Error("Please check your Internet connection and try again"))
         }

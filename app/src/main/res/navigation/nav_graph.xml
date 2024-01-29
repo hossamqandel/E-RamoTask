@@ -9,6 +9,19 @@
         android:id="@+id/postsFragment"
         android:name="com.hossam.e_ramotask.feature_posts.presentation.PostsFragment"
         android:label="fragment_posts"
-        tools:layout="@layout/fragment_posts" />
+        tools:layout="@layout/fragment_posts" >
+        <action
+            android:id="@+id/action_postsFragment_to_postDetailFragment"
+            app:destination="@id/postDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/postDetailFragment"
+        android:name="com.hossam.e_ramotask.feature_post_details.presentation.PostDetailFragment"
+        android:label="fragment_post_detail"
+        tools:layout="@layout/fragment_post_detail" >
+        <argument
+            android:name="postId"
+            app:argType="integer" />
+    </fragment>
 
 </navigation>

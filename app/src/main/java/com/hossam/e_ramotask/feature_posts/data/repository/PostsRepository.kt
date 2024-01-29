@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import retrofit2.http.HTTP
 import java.io.IOException
+import java.net.HttpURLConnection
 import java.net.HttpURLConnection.HTTP_BAD_REQUEST
 import java.net.HttpURLConnection.HTTP_NOT_FOUND
 import java.net.HttpURLConnection.HTTP_NO_CONTENT
@@ -28,17 +29,10 @@ class PostsRepository @Inject constructor(
             val result = webService.fetchPosts()
             when(result.code()){
                 HTTP_OK -> { result.body()?.let { posts -> emit(Resource.Success(posts)) } }
-                HTTP_NOT_FOUND -> Unit
-                HTTP_BAD_REQUEST -> Unit
-                HTTP_UNAUTHORIZED -> Unit
+                HTTP_NOT_FOUND -> emit(Resource.Error("The source that you are looking for not founded"))
                 HTTP_NO_CONTENT -> emit(Resource.Error("Sorry there is no content to show"))
             }
-        }catch (e: HttpException){
-            e.printStackTrace()
-            emit(Resource.Error("Please check your Internet connection and try again"))
-        }
-
-        catch (e: IOException){
+        } catch (e: IOException){
             e.printStackTrace()
             emit(Resource.Error("Please check your Internet connection and try again"))
         }

@@ -10,8 +10,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import com.hossam.e_ramotask.core.extensions.showSnackbar
+import com.hossam.e_ramotask.core.util.ClickListener
 import com.hossam.e_ramotask.databinding.FragmentPostsBinding
+import com.hossam.e_ramotask.feature_post_details.domain.model.Post
 import com.hossam.e_ramotask.feature_posts.domain.model.Posts
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -42,11 +45,23 @@ class PostsFragment : Fragment() {
         viewModel.getPosts()
         onRefresh()
         collectState()
+        clickEvents()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun clickEvents(){
+        postsAdapter.setOnItemClickListener(object : ClickListener {
+            override fun <T> onItemClick(value: T, position: Int) {
+                if (value is Post){
+                    val action = PostsFragmentDirections.actionPostsFragmentToPostDetailFragment(value.id)
+                    findNavController().navigate(action)
+                }
+            }
+        })
     }
 
     private fun bindPostsAdapter() {
